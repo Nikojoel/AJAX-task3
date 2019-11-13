@@ -1,8 +1,8 @@
 // Create function 'showImages' which
 // adds the loaded HTML content to <ul> element
 
-'use strict';
-
+/*
+****OLD WAY****
 const ul = document.querySelector("ul");
 
 const address = "images.html";
@@ -15,8 +15,23 @@ function showImages() {
         ul.innerHTML = text;
     });
 }
+****OLD WAY****
+*/
 
-showImages();
+'use strict';
+
+const showImages = async (url) => {
+  try {
+      const response = await fetch(url);
+      const result = await response.text();
+      document.querySelector("ul").innerHTML = result;
+      console.log(result);
+  } catch (e) {
+      console.log(e)
+  }
+};
+
+showImages("images.html");
 
 
 

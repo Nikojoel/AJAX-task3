@@ -17,9 +17,9 @@
 // Add attributes with setAttribute()
 // Add elements with appendChild
 // When the above HTML is ready append it to the <ul> element
+/*
 
-'use strict';
-
+****OLD WAY****
 const address = "images.json";
 const ul = document.querySelector("ul");
 
@@ -51,7 +51,37 @@ function showImages() {
         console.log(e);
     }
 }
+****OLD WAY****
+ */
+'use strict';
+const showImages = async (url) => {
+    try {
+        const response = await fetch(url);
+        const result = await response.json();
+        console.log(result);
+        result.forEach(it => {
+            const li = document.createElement("li");
+            const figure = document.createElement("figure");
+            const a = document.createElement("a");
+            const img = document.createElement("img");
+            const figCap = document.createElement("figcaption");
+            const h3 = document.createElement("h3");
+            a.setAttribute("href", `img/original/${it.mediaUrl}`);
+            img.setAttribute("src", `img/thumbs/${it.mediaThumb}`);
+            h3.innerText = it.mediaTitle;
+            figCap.appendChild(h3);
+            a.appendChild(img);
+            figure.appendChild(a);
+            figure.appendChild(figCap);
+            li.appendChild(figure);
+            document.querySelector("ul").appendChild(li);
+        });
+    } catch (e) {
+        console.log(e)
+    }
+};
 
-showImages();
+showImages("images.json");
+
 
 

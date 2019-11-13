@@ -1,7 +1,9 @@
 // Create function 'showImages' which
 // loads images.json which has links to images as an array.
-'use strict';
 
+
+/*
+****OLD WAY****
 const address = "images.json";
 const ul = document.querySelector("ul");
 let html = "";
@@ -30,17 +32,31 @@ function showImages() {
         console.log(e);
     }
 }
-
-showImages();
-// create a loop which builds the following HTML from every image in the array: 
-/*
-<li>
-    <figure>
-        <a href="img/original/filename.jpg"><img src="img/thumbs/filename.jpg"></a>
-        <figcaption>
-            <h3>Title</h3>
-        </figcaption>
-    </figure>
-</li>
+****OLD WAY****
 */
-// After the loop print the HTML into <ul> element using innerHTML.
+'use strict';
+let html = "";
+
+const showImages = async (url) => {
+    try {
+        const response = await fetch(url);
+        const result = await response.json();
+        console.log(result);
+        result.forEach(it => {
+            html += `<li>
+                        <figure>
+                        <a href="img/original/${it.mediaUrl}"><img src="img/thumbs/${it.mediaThumb}"></a>
+                            <figcaption>
+                                <h3>${it.mediaTitle}</h3>
+                            </figcaption>
+                        </figure>
+                    </li>`
+        });
+        document.querySelector("ul").innerHTML = html;
+    } catch (e) {
+        console.log(e)
+    }
+};
+
+showImages("images.json");
+
